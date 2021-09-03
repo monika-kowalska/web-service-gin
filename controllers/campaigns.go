@@ -3,6 +3,8 @@ package controllers
 import (
 	"net/http"
 
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/monika-kowalska/web-service-gin/models"
 )
@@ -12,6 +14,7 @@ func FindCampaigns(c *gin.Context) {
 	models.DB.Find(&campaigns)
 
 	c.JSON(http.StatusOK, gin.H{"data": campaigns})
+	fmt.Printf("%#v\n", campaigns)
 }
 
 type CreateCampaignInput struct {

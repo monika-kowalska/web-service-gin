@@ -7,6 +7,10 @@ import (
 )
 
 func main() {
+	setupServer().Run()
+}
+
+func setupServer() *gin.Engine {
 	r := gin.Default()
 
 	models.ConnectDataBase()
@@ -16,5 +20,6 @@ func main() {
 	r.GET("/campaigns/:id", controllers.FindCampaign)
 	r.PATCH("/campaigns/:id", controllers.UpdateCampaign)
 	r.DELETE("/campaigns/:id", controllers.DeleteCampaign)
-	r.Run()
+
+	return r
 }
