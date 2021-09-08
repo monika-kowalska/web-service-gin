@@ -7,13 +7,13 @@ import (
 )
 
 func main() {
-	setupServer().Run()
+	setupServer("test.db").Run()
 }
 
-func setupServer() *gin.Engine {
+func setupServer(dbTarget string) *gin.Engine {
 	r := gin.Default()
 
-	models.ConnectDataBase()
+	models.ConnectDataBase(dbTarget)
 
 	r.GET("/campaigns", controllers.FindCampaigns)
 	r.POST("/campaigns", controllers.CreateCampaign)

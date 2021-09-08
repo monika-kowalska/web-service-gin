@@ -69,6 +69,8 @@ func UpdateCampaign(c *gin.Context) {
 		return
 	}
 
+	fmt.Println("input:", c.ShouldBindJSON)
+
 	models.DB.Model(&campaign).Updates(input)
 
 	c.JSON(http.StatusOK, gin.H{"data": campaign})
