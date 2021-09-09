@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	setupServer("test.db").Run()
+	setupServer("local.db").Run()
 }
 
 func setupServer(dbTarget string) *gin.Engine {

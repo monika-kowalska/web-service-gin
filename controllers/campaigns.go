@@ -17,19 +17,9 @@ func FindCampaigns(c *gin.Context) {
 	fmt.Printf("%#v\n", campaigns)
 }
 
-type CreateCampaignInput struct {
-	Title  string `json:"title" binding:"required"`
-	Author string `json:"author" binding:"required"`
-}
-
-type UpdateCampaignInput struct {
-	Title  string `json:"title"`
-	Author string `json:"author"`
-}
-
 func CreateCampaign(c *gin.Context) {
 	// Validate input
-	var input CreateCampaignInput
+	var input models.CreateCampaignInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -63,13 +53,11 @@ func UpdateCampaign(c *gin.Context) {
 	}
 
 	// Validate input
-	var input UpdateCampaignInput
+	var input models.UpdateCampaignInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	fmt.Println("input:", c.ShouldBindJSON)
 
 	models.DB.Model(&campaign).Updates(input)
 
