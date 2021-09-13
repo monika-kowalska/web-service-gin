@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/monika-kowalska/web-service-gin/daos"
+	"github.com/monika-kowalska/web-service-gin/models"
 	"github.com/monika-kowalska/web-service-gin/services"
 )
 
@@ -29,12 +30,12 @@ func GetCampaigns(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": campaigns})
 }
 
-// func CreateCampaign(c *gin.Context) {
-// 	var input models.CreateCampaignInput
-// 	if err := c.ShouldBindJSON(&input); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 		return
-// 	}
-// 	campaign := campaignService().CreateCampaign(input)
-// 	c.JSON(http.StatusOK, campaign)
-// }
+func CreateCampaign(c *gin.Context) {
+	var input models.CreateCampaignInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	campaign := campaignService().CreateCampaign(input)
+	c.JSON(http.StatusOK, campaign)
+}

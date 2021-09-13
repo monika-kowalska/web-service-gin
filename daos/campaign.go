@@ -27,8 +27,8 @@ func (dao *CampaignDAO) GetAll() *[]models.Campaign {
 	return &campaigns
 }
 
-// func (dao *CampaignDAO) CreateCampaign(input *models.CreateCampaignInput) *models.Campaign {
-// 	campaign := models.Campaign{Title: input.Title, Author: input.Author}
-// 	config.DB.Create(&campaign)
-// 	return &campaign
-// }
+func (dao *CampaignDAO) CreateCampaign(input models.CreateCampaignInput) *models.Campaign {
+	campaign := models.Campaign{Title: input.Title, Author: input.Author}
+	config.DB.Create(&campaign)
+	return &campaign
+}

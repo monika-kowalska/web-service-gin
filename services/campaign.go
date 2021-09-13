@@ -5,7 +5,7 @@ import "github.com/monika-kowalska/web-service-gin/models"
 type campaignDAO interface {
 	Get(id uint) (*models.Campaign, error)
 	GetAll() *[]models.Campaign
-	// CreateCampaign(input *models.CreateCampaignInput) *[]models.Campaign
+	CreateCampaign(input models.CreateCampaignInput) *models.Campaign
 }
 
 type CampaignService struct {
@@ -24,6 +24,6 @@ func (s *CampaignService) GetCampaigns() *[]models.Campaign {
 	return s.dao.GetAll()
 }
 
-// func (s *CampaignService) CreateCampaign(input models.CreateCampaignInput) *[]models.Campaign {
-// 	return s.dao.CreateCampaign(input)
-// }
+func (s *CampaignService) CreateCampaign(input models.CreateCampaignInput) *models.Campaign {
+	return s.dao.CreateCampaign(input)
+}
