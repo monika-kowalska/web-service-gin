@@ -12,6 +12,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/assert/v2"
+	"github.com/monika-kowalska/web-service-gin/config"
 	"github.com/monika-kowalska/web-service-gin/models"
 )
 
@@ -20,13 +21,13 @@ func TestCampaignsCRUD(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 	ts := httptest.NewServer(setupServer(dbTarget))
 
-	models.DB.DropTableIfExists(&models.Campaign{}, "campaigns")
-	models.ConnectDataBase(dbTarget)
+	config.DB.DropTableIfExists(&models.Campaign{}, "campaigns")
+	config.ConnectDataBase(dbTarget)
 
 	defer ts.Close()
 
 	t.Run("Create Empty DB", func(t *testing.T) {
-		resp, err := http.Get(fmt.Sprintf("%s/campaigns", ts.URL))
+		resp, err := http.Get(fmt.Sprintf("%s/api/v1/campaigns", ts.URL))
 
 		assert.Equal(t, http.StatusOK, resp.StatusCode)
 
@@ -40,19 +41,19 @@ func TestCampaignsCRUD(t *testing.T) {
 		}
 
 		for _, camp := range campaigns {
-			models.DB.Create(&camp)
+			config.DB.Create(&camp)
 		}
 
 		var campains_from_db []models.Campaign
 
-		result := models.DB.Find(&campains_from_db)
+		result := config.DB.Find(&campains_from_db)
 		var num int64 = 2
-
+		//int64(2) ??
 		assert.Equal(t, result.RowsAffected, num)
 	})
 
 	t.Run("Retrieve Existing ID on Populated DB", func(t *testing.T) {
-		resp, _ := http.Get(fmt.Sprintf("%s/campaigns/1", ts.URL))
+		resp, _ := http.Get(fmt.Sprintf("%s/api/v1/campaigns/1", ts.URL))
 
 		defer resp.Body.Close()
 
@@ -88,7 +89,7 @@ func TestCampaignsCRUD(t *testing.T) {
 		resp, err := http.Post(fmt.Sprintf("%s/campaigns", ts.URL), "application/json", bytes.NewReader(payload))
 
 		var campains_from_db []models.Campaign
-		result := models.DB.Find(&campains_from_db)
+		result := config.DB.Find(&campains_from_db)
 		var num int64 = 3
 
 		assert.Equal(t, result.RowsAffected, num)
@@ -119,7 +120,7 @@ func TestCampaignsCRUD(t *testing.T) {
 
 		var campaign models.Campaign
 
-		error := models.DB.Where("id = ?", 3).First(&campaign).Error
+		error := config.DB.Where("id = ?", 3).First(&campaign).Error
 
 		if err != nil {
 			log.Fatal(error)
@@ -148,7 +149,7 @@ func TestCampaignsCRUD(t *testing.T) {
 		defer resp.Body.Close()
 
 		var campains_from_db []models.Campaign
-		result := models.DB.Find(&campains_from_db)
+		result := config.DB.Find(&campains_from_db)
 		var num int64 = 2
 
 		assert.Equal(t, nil, err)

@@ -6,12 +6,13 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/monika-kowalska/web-service-gin/config"
 	"github.com/monika-kowalska/web-service-gin/models"
 )
 
 func FindCampaigns(c *gin.Context) {
 	var campaigns []models.Campaign
-	models.DB.Find(&campaigns)
+	config.DB.Find(&campaigns)
 
 	c.JSON(http.StatusOK, gin.H{"data": campaigns})
 	fmt.Printf("%#v\n", campaigns)
@@ -27,7 +28,7 @@ func CreateCampaign(c *gin.Context) {
 
 	// Create campaign
 	campaign := models.Campaign{Title: input.Title, Author: input.Author}
-	models.DB.Create(&campaign)
+	config.DB.Create(&campaign)
 
 	c.JSON(http.StatusOK, gin.H{"data": campaign})
 }
@@ -35,7 +36,7 @@ func CreateCampaign(c *gin.Context) {
 func FindCampaign(c *gin.Context) { // Get model if exist
 	var campaign models.Campaign
 
-	err := models.DB.Where("id = ?", c.Param("id")).First(&campaign).Error
+	err := config.DB.Where("id = ?", c.Param("id")).First(&campaign).Error
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
@@ -47,7 +48,7 @@ func FindCampaign(c *gin.Context) { // Get model if exist
 func UpdateCampaign(c *gin.Context) {
 	// Get model if exist
 	var campaign models.Campaign
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&campaign).Error; err != nil {
+	if err := config.DB.Where("id = ?", c.Param("id")).First(&campaign).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
@@ -59,7 +60,7 @@ func UpdateCampaign(c *gin.Context) {
 		return
 	}
 
-	models.DB.Model(&campaign).Updates(input)
+	config.DB.Model(&campaign).Updates(input)
 
 	c.JSON(http.StatusOK, gin.H{"data": campaign})
 }
@@ -67,13 +68,13 @@ func UpdateCampaign(c *gin.Context) {
 func DeleteCampaign(c *gin.Context) {
 	var campaign models.Campaign
 
-	err := models.DB.Where("id = ?", c.Param("id")).First(&campaign).Error
+	err := config.DB.Where("id = ?", c.Param("id")).First(&campaign).Error
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
 	}
 
-	models.DB.Delete(&campaign)
+	config.DB.Delete(&campaign)
 
 	c.JSON(http.StatusOK, gin.H{"data": true})
 }

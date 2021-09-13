@@ -1,8 +1,9 @@
-package models
+package config
 
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/monika-kowalska/web-service-gin/models"
 )
 
 var DB *gorm.DB
@@ -13,7 +14,7 @@ func ConnectDataBase(dbTarget string) {
 		panic("Failed to connect to database!")
 	}
 
-	database.AutoMigrate(&Campaign{})
+	database.AutoMigrate(&models.Campaign{})
 
 	DB = database
 }
