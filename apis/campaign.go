@@ -39,3 +39,18 @@ func CreateCampaign(c *gin.Context) {
 	campaign := campaignService().CreateCampaign(input)
 	c.JSON(http.StatusOK, campaign)
 }
+
+func UpdateCampaign(c *gin.Context) {
+	var input models.UpdateCampaignInput
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	campaign, err := campaignService().UpdateCampaign(input)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+	c.JSON(http.StatusOK, campaign)
+}
