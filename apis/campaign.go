@@ -1,7 +1,6 @@
 package apis
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
@@ -18,8 +17,8 @@ func campaignService() *services.CampaignService {
 func GetCampaign(c *gin.Context) {
 	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
 	if campaign, err := campaignService().Get(uint(id)); err != nil {
-		c.AbortWithStatus(http.StatusNotFound)
-		log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
 	} else {
 		c.JSON(http.StatusOK, campaign)
 	}
@@ -53,4 +52,14 @@ func UpdateCampaign(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, campaign)
+}
+
+func DeleteCampaign(c *gin.Context) {
+	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
+	_, err := campaignService().DeleteCampaign(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": true})
 }

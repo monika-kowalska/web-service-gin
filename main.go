@@ -22,6 +22,7 @@ func setupServer(dbTarget string) *gin.Engine {
 		v1.GET("campaigns", apis.GetCampaigns)
 		v1.POST("/campaigns", apis.CreateCampaign)
 		v1.PATCH("/campaigns/:id", apis.UpdateCampaign)
+		v1.DELETE("/campaigns/:id", apis.DeleteCampaign)
 	}
 
 	// r.GET("/campaigns", controllers.FindCampaigns)

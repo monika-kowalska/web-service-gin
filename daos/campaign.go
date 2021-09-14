@@ -43,3 +43,12 @@ func (dao *CampaignDAO) UpdateCampaign(input models.UpdateCampaignInput) (*model
 	config.DB.Model(&campaign).Updates(input)
 	return &campaign, nil
 }
+
+func (dao *CampaignDAO) DeleteCampaign(id uint64) (*models.Campaign, error) {
+	var campaign models.Campaign
+	if err := config.DB.Where("id = ?", id).First(&campaign).Error; err != nil {
+		return nil, err
+	}
+	config.DB.Delete(&campaign)
+	return &campaign, nil
+}
