@@ -47,9 +47,8 @@ func TestCampaignsCRUD(t *testing.T) {
 		var campains_from_db []models.Campaign
 
 		result := config.DB.Find(&campains_from_db)
-		var num int64 = 2
-		//int64(2) ??
-		assert.Equal(t, result.RowsAffected, num)
+
+		assert.Equal(t, result.RowsAffected, int64(2))
 	})
 
 	t.Run("Retrieve Existing ID on Populated DB", func(t *testing.T) {
@@ -63,21 +62,14 @@ func TestCampaignsCRUD(t *testing.T) {
 			Title:  "First Campaign",
 		}
 
-		// jak nie potrzebuje err do niczego a funkcja zwraca 2 argumenty w tym error wlasnie i musze jej przypisac
-		// w zwiazku z tym drugi argument to moge uzyc _
-
 		body, _ := io.ReadAll(resp.Body)
 
-		// parse json response body in order to get value of data:
-		// json response body looks like that:  {"data":{"id":1,"title":"First Campaign","author":"User1"}}
-		var c struct {
-			Data models.Campaign `json:"data"`
-		}
+		var c models.Campaign
 
 		_ = json.Unmarshal(body, &c)
 
 		assert.Equal(t, http.StatusOK, resp.StatusCode)
-		assert.Equal(t, expected, c.Data)
+		assert.Equal(t, expected, c)
 	})
 
 	t.Run("Add new campaign", func(t *testing.T) {
@@ -86,7 +78,7 @@ func TestCampaignsCRUD(t *testing.T) {
 			Author: "Dupa Jasia",
 		})
 
-		resp, err := http.Post(fmt.Sprintf("%s/campaigns", ts.URL), "application/json", bytes.NewReader(payload))
+		resp, err := http.Post(fmt.Sprintf("%s/api/v1/campaigns", ts.URL), "application/json", bytes.NewReader(payload))
 
 		var campains_from_db []models.Campaign
 		result := config.DB.Find(&campains_from_db)
@@ -99,11 +91,12 @@ func TestCampaignsCRUD(t *testing.T) {
 
 	t.Run("Update existing campaign", func(t *testing.T) {
 		payload, _ := json.Marshal(map[string]interface{}{
+			"id":     3,
 			"author": "Lord Voldemort",
 		})
 
 		client := &http.Client{}
-		url := fmt.Sprintf("%s/campaigns/3", ts.URL)
+		url := fmt.Sprintf("%s/api/v1/campaigns/3", ts.URL)
 		req, err := http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(payload))
 		req.Header.Set("Content-Type", "application/json")
 
@@ -133,7 +126,7 @@ func TestCampaignsCRUD(t *testing.T) {
 
 	t.Run("Delete existing campaign", func(t *testing.T) {
 		client := &http.Client{}
-		url := fmt.Sprintf("%s/campaigns/3", ts.URL)
+		url := fmt.Sprintf("%s/api/v1/campaigns/3", ts.URL)
 		req, err := http.NewRequest(http.MethodDelete, url, nil)
 		req.Header.Set("Content-Type", "application/json")
 
