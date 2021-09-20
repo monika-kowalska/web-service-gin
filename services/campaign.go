@@ -7,7 +7,7 @@ type campaignDAO interface {
 	GetAll() *[]models.Campaign
 	CreateCampaign(input models.CreateCampaignInput) *models.Campaign
 	UpdateCampaign(input models.UpdateCampaignInput) (*models.Campaign, error)
-	DeleteCampaign(id uint64) (*models.Campaign, error)
+	DeleteCampaign(id uint) (*models.Campaign, error)
 }
 
 type CampaignService struct {
@@ -34,6 +34,6 @@ func (s *CampaignService) UpdateCampaign(input models.UpdateCampaignInput) (*mod
 	return s.dao.UpdateCampaign(input)
 }
 
-func (s *CampaignService) DeleteCampaign(id uint64) (*models.Campaign, error) {
+func (s *CampaignService) DeleteCampaign(id uint) (*models.Campaign, error) {
 	return s.dao.DeleteCampaign(id)
 }

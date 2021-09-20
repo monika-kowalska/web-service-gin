@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+    "id": 1,
+    "title": "First Campaign",
+    "author": "John Doe"
+    },
+    {
+      "id": 2,
+      "title": "Magic Campaign",
+      "author": "Harry Potter"
+    }
+  ]
+}

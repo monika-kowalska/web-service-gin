@@ -17,7 +17,7 @@ func campaignService() *services.CampaignService {
 func GetCampaign(c *gin.Context) {
 	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
 	if campaign, err := campaignService().Get(uint(id)); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Record not found!"})
 		return
 	} else {
 		c.JSON(http.StatusOK, campaign)
@@ -56,7 +56,7 @@ func UpdateCampaign(c *gin.Context) {
 
 func DeleteCampaign(c *gin.Context) {
 	id, _ := strconv.ParseUint(c.Param("id"), 10, 32)
-	_, err := campaignService().DeleteCampaign(id)
+	_, err := campaignService().DeleteCampaign(uint(id))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 		return
