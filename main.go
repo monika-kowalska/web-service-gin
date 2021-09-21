@@ -25,11 +25,5 @@ func setupServer(dbTarget string) *gin.Engine {
 		v1.DELETE("/campaigns/:id", apis.DeleteCampaign)
 	}
 
-	// r.GET("/campaigns", controllers.FindCampaigns)
-	// r.POST("/campaigns", controllers.CreateCampaign)
-	// r.GET("/campaigns/:id", controllers.FindCampaign)
-	// r.PATCH("/campaigns/:id", controllers.UpdateCampaign)
-	// r.DELETE("/campaigns/:id", controllers.DeleteCampaign)
-
 	return r
 }

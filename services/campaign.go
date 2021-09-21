@@ -6,7 +6,7 @@ type campaignDAO interface {
 	Get(id uint) (*models.Campaign, error)
 	GetAll() *[]models.Campaign
 	CreateCampaign(input models.CreateCampaignInput) *models.Campaign
-	UpdateCampaign(input models.UpdateCampaignInput) (*models.Campaign, error)
+	UpdateCampaign(input models.UpdateCampaignInput, id string) (*models.Campaign, error)
 	DeleteCampaign(id uint) (*models.Campaign, error)
 }
 
@@ -30,8 +30,8 @@ func (s *CampaignService) CreateCampaign(input models.CreateCampaignInput) *mode
 	return s.dao.CreateCampaign(input)
 }
 
-func (s *CampaignService) UpdateCampaign(input models.UpdateCampaignInput) (*models.Campaign, error) {
-	return s.dao.UpdateCampaign(input)
+func (s *CampaignService) UpdateCampaign(input models.UpdateCampaignInput, id string) (*models.Campaign, error) {
+	return s.dao.UpdateCampaign(input, id)
 }
 
 func (s *CampaignService) DeleteCampaign(id uint) (*models.Campaign, error) {

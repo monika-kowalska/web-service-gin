@@ -46,7 +46,9 @@ func UpdateCampaign(c *gin.Context) {
 		return
 	}
 
-	campaign, err := campaignService().UpdateCampaign(input)
+	id := c.Param("id")
+
+	campaign, err := campaignService().UpdateCampaign(input, id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return

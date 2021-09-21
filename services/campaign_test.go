@@ -47,7 +47,7 @@ func TestCampaignService_UpdateCampaign(t *testing.T) {
 	s := NewCampaignService(newMockCampaignDAO())
 
 	input := models.UpdateCampaignInput{Title: "test", Author: "user1"}
-	campaign, err := s.UpdateCampaign(input)
+	campaign, err := s.UpdateCampaign(input, "2")
 	assert.Equal(t, "user1", campaign.Author)
 	assert.Nil(t, err)
 
@@ -98,7 +98,7 @@ func (m *mockCampaignDAO) CreateCampaign(input models.CreateCampaignInput) *mode
 	return &campaign
 }
 
-func (m *mockCampaignDAO) UpdateCampaign(input models.UpdateCampaignInput) (*models.Campaign, error) {
+func (m *mockCampaignDAO) UpdateCampaign(input models.UpdateCampaignInput, id string) (*models.Campaign, error) {
 	campaign := models.Campaign{Title: input.Title, Author: input.Author}
 	return &campaign, nil
 }

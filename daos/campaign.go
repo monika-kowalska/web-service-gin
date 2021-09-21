@@ -33,10 +33,10 @@ func (dao *CampaignDAO) CreateCampaign(input models.CreateCampaignInput) *models
 	return &campaign
 }
 
-func (dao *CampaignDAO) UpdateCampaign(input models.UpdateCampaignInput) (*models.Campaign, error) {
+func (dao *CampaignDAO) UpdateCampaign(input models.UpdateCampaignInput, id string) (*models.Campaign, error) {
 	var campaign models.Campaign
 
-	if err := config.DB.Where("id = ?", input.ID).First(&campaign).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).First(&campaign).Error; err != nil {
 		return nil, err
 	}
 
